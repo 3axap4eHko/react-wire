@@ -1,6 +1,6 @@
 React Wire
 ==================
-Tiny and Fast library for react component communications
+Tiny and Fast library for react components communications
 
 ## Install
  $ npm install react-wire
@@ -8,49 +8,53 @@ Tiny and Fast library for react component communications
 ## Usage
 
 ```javascript
+// Menu.js
+import React, { Component } from 'react';
+import { listen } from 'react-wire';
 
-import React from 'react';
-import {mixin, subscribe, store} from 'react-wire';
-
-const Button = React.createClass({
-    mixins: [mixin],
-    onClick() {
-        this.store.username = this.props.username;
-    },
-    render() {
-        return (<button onClick={this.onClick}>{this.props.username}</button>);
+export default class Menu extends Component {
+  
+  state = {
+    display: false,
+  };
+  
+  @listen('toggleMenu')
+  toggleMenu() {
+    this.setState({ display: !this.state.display });
+  }
+  render() {
+    if(!this.state.display) {
+      return null;
     }
-});
+    return (
+      <div>
+        ...Menu
+        <button onClick={this.toggleMenu}>Close</button>
+      </div>
+    );
+  }
+}
+```
 
-const Display = React.createClass({
-    mixins: [mixin],
-    getInitialState(){
-        return {name: ''}
-    },
-    [subscribe('username')](name) {
-        this.setState({name});
-    },
-    render() {
-        return (<div>{this.state.name}</div>);
-    }
-});
+```javascript
+// CloseMenuButton.js
+import React, { Component } from 'react';
+import { trigger } from 'react-wire';
 
-const Page = React.createClass({
-    componentDidMount() {
-        setTimeout( () => store['propertyName'] = 'New other user name', 3000 );
-    },
-    render() {
-        return (
-            <div>
-                <Button username="John Smith"/>
-                <Button username="Neo"/>
-                <Display />
-            </div>
-        );
-    }
-});
+export default class CloseMenuButton extends Component {
+  
+  @trigger('toggleMenu')
+  closeMenu() {
+    console.log('close menu trigger');
+  }
+  render() {
+    return (
+      <button onClick={this.closeMenu}>Close</button>
+    );
+  }
+}
 ```
 
 ## License
 [The MIT License](http://opensource.org/licenses/MIT)
-Copyright (c) 2016 Ivan Zakharchenko
+Copyright (c) 2016-2018 Ivan Zakharchenko
