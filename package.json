@@ -8,10 +8,6 @@
     "prepare": "NODE_ENV=production npm run build",
     "test": "NODE_ENV=test jest"
   },
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
   "author": "Ivan Zakharchenko <3axap4eHko.development@gmail.com> (https://potofcode.com/)",
   "license": "MIT",
   "licenses": [
@@ -20,13 +16,9 @@
       "url": "http://www.opensource.org/licenses/MIT"
     }
   ],
-  "bugs": {
-    "url": ""
-  },
   "engines": {
     "node": ">= 8.*"
   },
-  "homepage": "",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
@@ -42,5 +34,23 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-test-renderer": "^16.2.0"
-  }
+  },
+  "keywords": [
+    "react",
+    "fiber",
+    "event",
+    "component",
+    "communication",
+    "service",
+    "listener",
+    "trigger"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/3axap4eHko/react-wire.git"
+  },
+  "bugs": {
+    "url": "https://github.com/3axap4eHko/react-wire/issues"
+  },
+  "homepage": "https://github.com/3axap4eHko/react-wire#readme"
 }
