@@ -2,7 +2,9 @@ const componentsRegistry = new Map();
 const eventListeners = new Set();
 
 export function listen(event) {
+
   return (target, key, descriptor) => {
+
     const callback = descriptor.value || descriptor.initializer();
     const Component = target.constructor;
 
@@ -46,8 +48,8 @@ export function listen(event) {
 export function trigger(event) {
   return (target, key, descriptor) => {
 
-    function callback() {
-      const result = (descriptor.value || descriptor.initializer())();
+    function callback(...args) {
+      const result = (descriptor.value || descriptor.initializer())(...args);
       for (const listener of eventListeners) {
         if (listener.event === event) {
           listener.callback(result);
