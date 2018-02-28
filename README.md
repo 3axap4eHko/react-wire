@@ -79,12 +79,11 @@ export default class Snackbar extends Component {
 ```
 
 ```javascript
-// index.js
+// Menu.js
 import React, { Component } from 'react';
-import { render } from 'react-dom';
 import { trigger, dispatch } from 'react-wire';
-// Overlay.js
-class Menu extends Component {
+
+export default class Menu extends Component {
   
   state = {
     counter: 0,
@@ -112,9 +111,16 @@ class Menu extends Component {
     );
   }
 }
+```
 
-render(<Menu />, document.getElementById('app'));
+```javascript
+// index.js
+import React from 'react';
+import { render } from 'react-dom';
+import Menu from './Menu.js';
+import Snackbar from './Snackbar.js';
 
+render(<div><Menu/><Snackbar/></div>, document.getElementById('app'));
 ```
 
 ## License
