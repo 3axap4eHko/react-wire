@@ -4,32 +4,74 @@ Tiny and Fast library for react components communications
 
 ## Install
  $ npm install react-wire
+ 
+## Reference
 
-## Usage
+#### listen(event: string)
+A method decorator that listening specified `event`
+```javascript
+class Foo extends Component {
+  @listen('bar')
+  baz() {
+    
+  }  
+}
+```
+
+#### dispatch(event: string, ...args)
+A function that dispatches specified `event` with provided arguments
+```javascript
+dispatch('foo', bar, baz);
+```
+
+#### trigger(event: string)
+A method decorator that triggers a dispatching specified `event` with method result as an event first argument
+```javascript
+class Foo extends Component {
+  @trigger('bar')
+  baz() {
+    return 'message';
+  }  
+}
+```
+the same as 
+```javascript
+dispatch('bar', 'message');
+```
+## Usage examples
+
+A simple snackbar example
 
 ```javascript
-// Menu.js
+// Snackbar.js
 import React, { Component } from 'react';
 import { listen } from 'react-wire';
 
-export default class Menu extends Component {
+export default class Snackbar extends Component {
   
   state = {
     display: false,
+    message: '',
   };
   
-  @listen('toggleMenu')
-  toggleMenu() {
-    this.setState({ display: !this.state.display });
+  @listen('displaySnackbar')
+  displaySnackbar = (display, message) => {
+    clearTimeout(this.timerId);
+    this.setState({ display, message });
+    this.timerId = setTimeout(() => this.setState({ display, message }), 3000);
+  };
+  
+  @listen('closeSnackbar')
+  closeSnackbar() {
+    this.displaySnackbar(false, this.state.message);
   }
+    
   render() {
-    if(!this.state.display) {
-      return null;
-    }
+    const { display, message } = this.state;
     return (
-      <div>
-        ...Menu
-        <button onClick={this.toggleMenu}>Close</button>
+      <div className={display ? 'snackbar--shown' : 'snackbar--hidden'}>
+        <button onClick={this.closeSnackbar}>X</button>
+        {message}
       </div>
     );
   }
@@ -37,22 +79,42 @@ export default class Menu extends Component {
 ```
 
 ```javascript
-// CloseMenuButton.js
+// index.js
 import React, { Component } from 'react';
-import { trigger } from 'react-wire';
-
-export default class CloseMenuButton extends Component {
+import { render } from 'react-dom';
+import { trigger, dispatch } from 'react-wire';
+// Overlay.js
+class Menu extends Component {
   
-  @trigger('toggleMenu')
-  closeMenu() {
-    console.log('close menu trigger');
+  state = {
+    counter: 0,
+  };
+  
+  @trigger('closeSnackbar')
+  closeSnackbar() {
+    this.setState({ counter: this.state.counter + 1 });
   }
+  
+  showSnackbar() {
+    dispatch('displaySnackbar', true, this.input.value);
+  }
+    
   render() {
+    const { counter } = this.state;
+    
     return (
-      <button onClick={this.closeMenu}>Close</button>
+      <div>
+        Snackbar closed: {counter} times
+        <input ref={input => this.input = input} />
+        <button onClick={this.showSnackbar}>Show snackbar</button>
+        <button onClick={this.closeSnackbar}>Close snackbar</button>
+      </div>
     );
   }
 }
+
+render(<Menu />, document.getElementById('app'));
+
 ```
 
 ## License
