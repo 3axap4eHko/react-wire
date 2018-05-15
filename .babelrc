@@ -13,17 +13,5 @@
     "transform-object-rest-spread",
     "transform-class-properties",
     ["transform-runtime", { "helpers": false, "polyfill": false }]
-  ],
-  "env": {
-    "test": {
-      "presets": [
-        "es2015"
-      ],
-      "plugins": [
-        "transform-decorators-legacy",
-        "transform-object-rest-spread",
-        "transform-class-properties"
-      ]
-    }
-  }
+  ]
 }
