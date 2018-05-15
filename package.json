@@ -16,9 +16,6 @@
       "url": "http://www.opensource.org/licenses/MIT"
     }
   ],
-  "engines": {
-    "node": ">= 9.*"
-  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
